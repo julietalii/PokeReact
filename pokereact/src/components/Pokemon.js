@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
@@ -13,6 +13,26 @@ const Pokemon = (props) => {
 
     const params = useParams();
 
+    /*al useeffect se le pasa funcion, la peticion se lanza cuando
+     tiene lugar el efecto */
+
+    useEffect(() =>{
+        //la sintaxis más moderna es async-await
+        axios.get("https://pokeapi.co/api/v2/pokemon/" + ID)
+        .then(response => {
+            setNombre(response.data.name);
+            setImgFrontUrl(response.data.sprites.front_default);
+            setImgBackUrl(response.data.sprites.back_default);
+            setBaseHP(getStat("hp", response.data.stats));
+            setBaseAttack(getStat("attack", response.data.stats));
+            setBaseDefense(getStat("defense", response.data.stats));
+            
+        })
+
+    }, [])
+
+    /*segundo parametro de useeffect, si pasas array vacio, peticion
+    de red, se ejecuta inicialmente y ya esta */
 
     const ID = params.id; //como prueba pongo uno y luego lo configuro
 
@@ -25,17 +45,7 @@ const Pokemon = (props) => {
         return filteredArray[0].base_stat;
     }
 
-    //la sintaxis más moderna es async-await
-    axios.get("https://pokeapi.co/api/v2/pokemon/" + ID)
-    .then(response => {
-        setNombre(response.data.name);
-        setImgFrontUrl(response.data.sprites.front_default);
-        setImgBackUrl(response.data.sprites.back_default);
-        setBaseHP(getStat("hp", response.data.stats));
-        setBaseAttack(getStat("attack", response.data.stats));
-        setBaseDefense(getStat("defense", response.data.stats));
-        
-    })
+    
 
     const onSubirNivel = (event) => { // on cuando suceda esto, buenas prácticas para nombres de f
         setNivel(nivel_antiguo => nivel_antiguo + 1)
