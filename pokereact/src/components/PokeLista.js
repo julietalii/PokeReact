@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const PokeLista = (props) =>{
+    console.log("entro pokelist");
     const [pokemons, setPokemons] = useState([])
     const navigate = useNavigate();
     
@@ -37,8 +38,8 @@ const PokeLista = (props) =>{
     */
 
     return <div>
-    <button onClick={funcionNavegaraSnivy}>Navegar a Snivy</button>
-          <link to= "/pokemon/25">Ir a PIKACHU</link>
+    <button onClick={funcionNavegarASnivy}>Navegar a Snivy</button>
+          <Link to= "/pokemon/25">Ir a PIKACHU</Link>
           <h1>Lista</h1>
           {pokemons.map(p =>{
             return <><p>Este pokemon es {p.name}</p>
